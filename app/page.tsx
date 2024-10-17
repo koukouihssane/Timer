@@ -147,7 +147,7 @@ export default function Home() {
               if (isActive) stopTimer();
               setEditingPart("minutes");
             }}
-            className={`${
+            className={`flex items-center justify-center ${
               editingPart === "minutes" && !isActive
                 ? "bg-white/10 rounded-xl"
                 : ""
@@ -161,7 +161,7 @@ export default function Home() {
               if (isActive) stopTimer();
               setEditingPart("seconds");
             }}
-            className={`${
+            className={`flex items-center justify-center ${
               editingPart === "seconds" && !isActive
                 ? "bg-white/10 rounded-xl"
                 : ""
