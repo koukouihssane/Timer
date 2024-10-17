@@ -170,7 +170,7 @@ export default function Home() {
             {pad(seconds)}
           </span>
         </div>
-        <div className="absolute bottom-5 opacity-0 hover:opacity-100">
+        <div className={`absolute bottom-5 ${isActive ? "hidden" : "" }`}>
           <div className="flex flex-col items-start justify-center space-y-2">
             <div className="flex items-center justify-center space-x-1 ">
               <button
@@ -224,7 +224,7 @@ export default function Home() {
                 {" "}
                 -{" "}
                 {editingPart === "minutes"
-                  ? "Up / Down to edit Minutes"
+                  ? "Up / Down to Edit Minutes"
                   : "Up / Down to Edit Seconds"}
               </span>
             </div>
