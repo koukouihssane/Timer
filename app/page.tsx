@@ -22,6 +22,7 @@ export default function Home() {
         } else {
           timerDown();
         }
+        // console.log("tick");
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -29,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     const detectPressedKey = (e: KeyboardEvent) => {
-      console.log(e.key);
+      // console.log(e.key);
       if (e.key === " ") {
         e.preventDefault();
         if (isActive) stopTimer();
@@ -60,7 +61,7 @@ export default function Home() {
         setIsCountDown(!isCountDown);
       }
       if (e.key === "d" || e.key === "D") {
-        setIsDanger(!isDanger);
+        if (isActive) setIsDanger(!isDanger);
       }
     };
     document.addEventListener("keydown", detectPressedKey, true);
@@ -126,6 +127,7 @@ export default function Home() {
   };
   const stopTimer = () => {
     setIsActive(false);
+    setIsDanger(false);
   };
 
   return (
@@ -134,143 +136,152 @@ export default function Home() {
       className={`flex flex-col items-center justify-center  space-y-5  font-extrabold min-h-svh`}
     >
       <div
-        className={`${
-          isDanger ? " text-red-500 focus:outline focus:ring" : ""
+        className={`absolute z-0 w-screen h-svh  ${
+          isDanger ? "bg-red-600 pulsing-element" : ""
         }`}
-      >
-        <span
-          onClick={() => {
-            if (isActive) stopTimer();
-            setEditingPart("minutes");
-          }}
-          className={`${
-            editingPart === "minutes" && !isActive ? "pulsing-element" : ""
-          } font-mono`}
-        >
-          {pad(minutes)}
-        </span>
-        <span className="font-mono">:</span>
-        <span
-          onClick={() => {
-            if (isActive) stopTimer();
-            setEditingPart("seconds");
-          }}
-          className={`${
-            editingPart === "seconds" && !isActive ? "pulsing-element" : ""
-          } font-mono`}
-        >
-          {pad(seconds)}
-        </span>
-      </div>
-      <div className="absolute bottom-5">
-        <div className="flex flex-col items-start justify-center space-y-2">
-          <div className="flex items-center justify-center space-x-1 ">
-            <button
-              onClick={fullScreen}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              F
-            </button>{" "}
-            <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
-              - {isFullScreen ? "Exit Fullscreen" : "Fullscreen"}
-            </span>
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => {
-                setEditingPart("minutes");
-                if (isActive) stopTimer();
-              }}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              <LuMoveLeft />
-            </button>
-            <button
-              onClick={() => {
-                setEditingPart("seconds");
-                stopTimer();
-              }}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              <LuMoveRight />
-            </button>
-            <button
-              onClick={() => {
-                if (isActive) stopTimer();
-                timerUp();
-              }}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              <LuMoveUp />
-            </button>
-            <button
-              onClick={() => {
-                if (isActive) stopTimer();
-                timerDown();
-              }}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              <LuMoveDown />
-            </button>
-            <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
-              {" "}
-              -{" "}
-              {editingPart === "minutes"
-                ? "Up / Down to edit Minutes"
-                : "Up / Down to Edit Seconds"}
-            </span>
-          </div>
-          <div className="flex items-center justify-center space-x-1 ">
-            <button
-              onClick={() => {
-                if (isActive) stopTimer();
-                resetTimer();
-              }}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              R
-            </button>
-            <span className="text-xs opacity-20  font-extralight flex items-center justify-center">
-              - Reset Timer
-            </span>
-          </div>
-          <div className="flex items-center justify-center space-x-1 ">
-            <button
-              onClick={() => setIsCountDown(!isCountDown)}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              S
-            </button>
-            <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
-              - {isCountDown ? "Countdown" : "Stopwatch"}
-            </span>
-          </div>
-          <div className="flex items-center justify-center space-x-1 ">
-            <button
-              onClick={() => {
-                setIsDanger(!isDanger);
-              }}
-              className="text-xs border font-extralight py-1 px-2 bg-red-500 rounded-md opacity-20 hover:opacity-60"
-            >
-              D
-            </button>
-            <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
-              - {isDanger ? "In Danger" : "No Danger"}
-            </span>
-          </div>
-          <div className="flex items-center justify-center space-x-1 ">
-            <button
-              onClick={() => {
-                if (isActive) stopTimer();
-                else startTimer();
-              }}
-              className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
-            >
-              Space
-            </button>
-            <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
-              - {isActive ? "Stop" : "Start"}
-            </span>
+      ></div>
+      <div className="z-40 flex items-center justify-center">
+        <div className="flex items-center justify-center">
+          <span
+            onClick={() => {
+              if (isActive) stopTimer();
+              setEditingPart("minutes");
+            }}
+            className={`${
+              editingPart === "minutes" && !isActive
+                ? "bg-white/10 rounded-xl"
+                : ""
+            } font-mono`}
+          >
+            {pad(minutes)}
+          </span>
+          <span className="font-mono">:</span>
+          <span
+            onClick={() => {
+              if (isActive) stopTimer();
+              setEditingPart("seconds");
+            }}
+            className={`${
+              editingPart === "seconds" && !isActive
+                ? "bg-white/10 rounded-xl"
+                : ""
+            } font-mono`}
+          >
+            {pad(seconds)}
+          </span>
+        </div>
+        <div className="absolute bottom-5">
+          <div className="flex flex-col items-start justify-center space-y-2">
+            <div className="flex items-center justify-center space-x-1 ">
+              <button
+                onClick={fullScreen}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                F
+              </button>{" "}
+              <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
+                - {isFullScreen ? "Exit Fullscreen" : "Fullscreen"}
+              </span>
+            </div>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => {
+                  setEditingPart("minutes");
+                  if (isActive) stopTimer();
+                }}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                <LuMoveLeft />
+              </button>
+              <button
+                onClick={() => {
+                  setEditingPart("seconds");
+                  stopTimer();
+                }}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                <LuMoveRight />
+              </button>
+              <button
+                onClick={() => {
+                  if (isActive) stopTimer();
+                  timerUp();
+                }}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                <LuMoveUp />
+              </button>
+              <button
+                onClick={() => {
+                  if (isActive) stopTimer();
+                  timerDown();
+                }}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                <LuMoveDown />
+              </button>
+              <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
+                {" "}
+                -{" "}
+                {editingPart === "minutes"
+                  ? "Up / Down to edit Minutes"
+                  : "Up / Down to Edit Seconds"}
+              </span>
+            </div>
+            <div className="flex items-center justify-center space-x-1 ">
+              <button
+                onClick={() => {
+                  if (isActive) stopTimer();
+                  resetTimer();
+                }}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                R
+              </button>
+              <span className="text-xs opacity-20  font-extralight flex items-center justify-center">
+                - Reset Timer
+              </span>
+            </div>
+            <div className="flex items-center justify-center space-x-1 ">
+              <button
+                onClick={() => setIsCountDown(!isCountDown)}
+                className="text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60"
+              >
+                S
+              </button>
+              <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
+                - {isCountDown ? "Countdown" : "Stopwatch"}
+              </span>
+            </div>
+            <div className="flex items-center justify-center space-x-1 ">
+              <button
+                onClick={() => {
+                  if (isActive) setIsDanger(!isDanger);
+                }}
+                className="text-xs border font-extralight py-1 px-2  rounded-md opacity-20 hover:opacity-60"
+              >
+                D
+              </button>
+              <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
+                - {isDanger ? "In Danger" : "No Danger"}
+              </span>
+            </div>
+            <div className="flex items-center justify-center space-x-1 ">
+              <button
+                onClick={() => {
+                  if (isActive) stopTimer();
+                  else startTimer();
+                }}
+                className={`text-xs border font-extralight py-1 px-2 rounded-md opacity-20 hover:opacity-60 ${
+                  isActive ? "bg-red-500" : "bg-green-500"
+                }`}
+              >
+                Space
+              </button>
+              <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
+                - {isActive ? "Stop" : "Start"} Timer
+              </span>
+            </div>
           </div>
         </div>
       </div>
