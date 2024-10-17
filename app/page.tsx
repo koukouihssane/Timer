@@ -162,7 +162,7 @@ export default function Home() {
           {pad(seconds)}
         </span>
       </div>
-      <div className="absolute bottom-10">
+      <div className="absolute bottom-5">
         <div className="flex flex-col items-start justify-center space-y-2">
           <div className="flex items-center justify-center space-x-1 ">
             <button
