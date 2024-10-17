@@ -27,12 +27,9 @@ body {
 }
 @keyframes pulse {
   50% {
-    opacity: 1;
-  }
-  20% {
     opacity: 0;
   }
 }
 .pulsing-element {
-  animation: pulse 1s infinite; /* Apply animation */
+  animation: pulse 1s step-start 0s infinite; /* Apply animation */
 }
