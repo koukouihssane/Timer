@@ -33,3 +33,7 @@ body {
 .pulsing-element {
   animation: pulse 1s step-start 0s infinite; /* Apply animation */
 }
+
+.fjalla {
+  font-family: var(--font-fjalla-one);
+}
