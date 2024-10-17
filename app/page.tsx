@@ -132,7 +132,7 @@ export default function Home() {
 
   return (
     <div
-      style={{ fontSize: "30vw" }}
+      style={{ fontSize: "25vw" }}
       className={`flex flex-col items-center justify-center  space-y-5  font-extrabold min-h-svh`}
     >
       <div
@@ -140,37 +140,37 @@ export default function Home() {
           isDanger ? "bg-red-600 pulsing-element" : ""
         }`}
       ></div>
-      <div className="z-40 flex items-center justify-center">
-        <div className="flex items-center justify-center">
+      <div className="z-40 flex items-center justify-center w-full">
+        <div className="w-full flex items-center justify-center space-x-5">
           <span
             onClick={() => {
               if (isActive) stopTimer();
               setEditingPart("minutes");
             }}
-            className={`flex items-center justify-center ${
+            className={`flex items-center justify-center w-full ${
               editingPart === "minutes" && !isActive
-                ? "bg-white/10 rounded-xl"
+                ? "bg-white/5 rounded-xl"
                 : ""
-            } `}
+            } fjalla`}
           >
             {pad(minutes)}
           </span>
-          <span className="">:</span>
+          <span className="fjalla">:</span>
           <span
             onClick={() => {
               if (isActive) stopTimer();
               setEditingPart("seconds");
             }}
-            className={`flex items-center justify-center ${
+            className={`w-full flex items-center justify-center  ${
               editingPart === "seconds" && !isActive
-                ? "bg-white/10 rounded-xl"
+                ? "bg-white/5 rounded-xl"
                 : ""
-            } `}
+            } fjalla `}
           >
             {pad(seconds)}
           </span>
         </div>
-        <div className="absolute bottom-5">
+        <div className="absolute bottom-5 opacity-0 hover:opacity-100">
           <div className="flex flex-col items-start justify-center space-y-2">
             <div className="flex items-center justify-center space-x-1 ">
               <button
