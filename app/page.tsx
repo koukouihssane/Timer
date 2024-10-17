@@ -61,7 +61,7 @@ export default function Home() {
         setIsCountDown(!isCountDown);
       }
       if (e.key === "d" || e.key === "D") {
-        if (isActive) setIsDanger(!isDanger);
+        setIsDanger(!isDanger);
       }
     };
     document.addEventListener("keydown", detectPressedKey, true);
@@ -151,11 +151,11 @@ export default function Home() {
               editingPart === "minutes" && !isActive
                 ? "bg-white/10 rounded-xl"
                 : ""
-            } font-mono`}
+            } `}
           >
             {pad(minutes)}
           </span>
-          <span className="font-mono">:</span>
+          <span className="">:</span>
           <span
             onClick={() => {
               if (isActive) stopTimer();
@@ -165,7 +165,7 @@ export default function Home() {
               editingPart === "seconds" && !isActive
                 ? "bg-white/10 rounded-xl"
                 : ""
-            } font-mono`}
+            } `}
           >
             {pad(seconds)}
           </span>
@@ -256,7 +256,7 @@ export default function Home() {
             <div className="flex items-center justify-center space-x-1 ">
               <button
                 onClick={() => {
-                  if (isActive) setIsDanger(!isDanger);
+                  setIsDanger(!isDanger);
                 }}
                 className="text-xs border font-extralight py-1 px-2  rounded-md opacity-20 hover:opacity-60"
               >
