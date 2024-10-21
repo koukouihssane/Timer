@@ -31,7 +31,7 @@ body {
   }
 }
 .pulsing-element {
-  animation: pulse 1s step-start 0s infinite; /* Apply animation */
+  animation: pulse 0.7s step-start 0s infinite; /* Apply animation */
 }
 
 .fjalla {
