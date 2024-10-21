@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { LuMoveDown, LuMoveLeft, LuMoveRight, LuMoveUp } from "react-icons/lu";
+import Background from "./components/background";
 
 export default function Home() {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  const [isDanger, setIsDanger] = useState(false);
   const [isCountDown, setIsCountDown] = useState(false);
   const [editingPart, setEditingPart] = useState("");
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -22,53 +22,51 @@ export default function Home() {
         } else {
           timerDown();
         }
-        // console.log("tick");
+        console.log("tick");
       }, 1000);
       return () => clearInterval(interval);
     }
   });
 
   useEffect(() => {
-    const detectPressedKey = (e: KeyboardEvent) => {
-      // console.log(e.key);
-      if (e.key === " ") {
-        e.preventDefault();
-        if (isActive) stopTimer();
-        else startTimer();
-      }
-      if (e.key === "ArrowLeft") {
-        setEditingPart("minutes");
-        if (isActive) stopTimer();
-      }
-      if (e.key === "ArrowRight") {
-        setEditingPart("seconds");
-        stopTimer();
-      }
-      if (e.key === "ArrowUp") {
-        if (isActive) stopTimer();
-        timerUp();
-      }
-      if (e.key === "ArrowDown") {
-        if (isActive) stopTimer();
-        timerDown();
-      }
-      if (e.key === "f" || e.key === "F") fullScreen();
-      if (e.key === "r" || e.key === "R") {
-        if (isActive) stopTimer();
-        resetTimer();
-      }
-      if (e.key === "s" || e.key === "S") {
-        setIsCountDown(!isCountDown);
-      }
-      if (e.key === "d" || e.key === "D") {
-        setIsDanger(!isDanger);
-      }
-    };
-    document.addEventListener("keydown", detectPressedKey, true);
+    document.addEventListener("keydown", detectPressedKey);
     return () => {
-      document.removeEventListener("keydown", detectPressedKey, true);
+      document.removeEventListener("keydown", detectPressedKey);
     };
   });
+
+  const detectPressedKey = (e: KeyboardEvent) => {
+    console.log(e.key);
+    if (e.key === " ") {
+      e.preventDefault();
+      if (isActive) stopTimer();
+      else startTimer();
+    }
+    if (e.key === "ArrowLeft") {
+      setEditingPart("minutes");
+      if (isActive) stopTimer();
+    }
+    if (e.key === "ArrowRight") {
+      setEditingPart("seconds");
+      stopTimer();
+    }
+    if (e.key === "ArrowUp") {
+      if (isActive) stopTimer();
+      timerUp();
+    }
+    if (e.key === "ArrowDown") {
+      if (isActive) stopTimer();
+      timerDown();
+    }
+    if (e.key === "f" || e.key === "F") fullScreen();
+    if (e.key === "r" || e.key === "R") {
+      if (isActive) stopTimer();
+      resetTimer();
+    }
+    if (e.key === "s" || e.key === "S") {
+      setIsCountDown(!isCountDown);
+    }
+  };
 
   const fullScreen = () => {
     if (document.fullscreenElement) {
@@ -127,7 +125,6 @@ export default function Home() {
   };
   const stopTimer = () => {
     setIsActive(false);
-    setIsDanger(false);
   };
 
   return (
@@ -135,11 +132,7 @@ export default function Home() {
       style={{ fontSize: "25vw" }}
       className={`flex flex-col items-center justify-center  space-y-5  font-extrabold min-h-svh`}
     >
-      <div
-        className={`absolute z-0 w-screen h-svh  ${
-          isDanger ? "bg-red-600 pulsing-element" : ""
-        }`}
-      ></div>
+      <Background />
       <div className="z-40 flex items-center justify-center w-full">
         <div className="w-full flex items-center justify-center space-x-5">
           <span
@@ -170,7 +163,7 @@ export default function Home() {
             {pad(seconds)}
           </span>
         </div>
-        <div className={`absolute bottom-5 ${isActive ? "hidden" : "" }`}>
+        <div className={`absolute bottom-5 ${isActive ? "hidden" : ""}`}>
           <div className="flex flex-col items-start justify-center space-y-2">
             <div className="flex items-center justify-center space-x-1 ">
               <button
@@ -254,16 +247,12 @@ export default function Home() {
               </span>
             </div>
             <div className="flex items-center justify-center space-x-1 ">
-              <button
-                onClick={() => {
-                  setIsDanger(!isDanger);
-                }}
-                className="text-xs border font-extralight py-1 px-2  rounded-md opacity-20 hover:opacity-60"
-              >
+              <button className="text-xs border font-extralight py-1 px-2  rounded-md opacity-20 hover:opacity-60">
                 D
               </button>
               <span className="text-xs opacity-20 font-extralight flex items-center justify-center">
-                - {isDanger ? "In Danger" : "No Danger"}
+                {" "}
+                Red Background
               </span>
             </div>
             <div className="flex items-center justify-center space-x-1 ">
